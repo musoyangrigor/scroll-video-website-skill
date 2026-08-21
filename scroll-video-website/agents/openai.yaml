@@ -1,4 +1,4 @@
 interface:
   display_name: "Scroll Video Website"
-  short_description: "Build cinematic scroll-scrubbed video websites"
-  default_prompt: "Use $scroll-video-website to redesign this project around my provided video."
+  short_description: "Build canvas-based scroll video animations"
+  default_prompt: "$scroll-video-website {path/to/video.mp4}"

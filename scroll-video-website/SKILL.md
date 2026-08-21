@@ -1,72 +1,118 @@
 ---
 name: scroll-video-website
-description: Build or redesign an existing website around a user-provided video, using smooth scroll-controlled video scrubbing as the full-viewport primary visual. Use for cinematic product pages, landing pages, and storytelling sites driven by a video timeline; do not use for ordinary autoplay video backgrounds or non-video scroll effects.
+description: Build or redesign a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals and storytelling pages where scrolling should scrub an animation; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
 ---
 
 # Scroll Video Website
 
-Create a premium, minimal website in which scrolling controls a full-viewport video. Treat the supplied video as the primary storytelling surface, not as decoration behind a conventional interface.
+Create a minimal full-page experience like a product animation viewer: the page itself supplies scroll distance while a fixed canvas fills the viewport and scrubs a frame sequence derived from the user's video. The animation is the interface, not a background behind a conventional landing page.
+
+## Invocation
+
+Treat this concise form as a complete build request:
+
+```text
+$scroll-video-website <path/to/video.mp4>
+```
+
+The video path must be the first argument after the skill name. Everything after the path is optional user direction for styling, layout, copy, or behavior:
+
+```text
+$scroll-video-website ./media/product-reveal.mp4
+$scroll-video-website ./media/product-reveal.mp4 use a black background and condensed typography
+```
+
+The first example means: derive the frame sequence and build the full default scroll-animation website described below. In the second, preserve the same video-driven animation architecture while following the added visual direction. Let the agent using this skill interpret and implement the rest of the prompt; this skill does not define a separate command grammar for style options.
+
+Interpret the video path as relative to the current working directory unless it is absolute. If it contains spaces, the user should quote it. Check the exact path first. If a bare filename is not there, search the current project for an exact filename match while excluding dependency, build, cache, and VCS directories. Continue automatically when exactly one match exists. If there are no matches or multiple matches, ask the user for the precise path. Braces in `<path/to/video.mp4>` or `{video_path}` indicate a placeholder and are not part of the actual path. Do not require or interpret a `use` keyword.
 
 ## Establish the project and source video
 
 Before editing:
 
-1. Inspect the project structure, package scripts, framework, styling system, routing, and relevant local instructions.
-2. Locate the video the user supplied. If no video or path was provided and none can be confidently identified, ask for it before implementing.
-3. Reuse the existing stack, asset conventions, and working project. Do not scaffold a replacement project when one already works.
-4. Preserve unrelated behavior and make the smallest coherent set of changes needed for the redesign.
-5. Inspect the video when practical—format, dimensions, duration, file size, and visual sequence—to inform composition and section timing. Do not recreate or replace it.
+1. Inspect the project structure, scripts, framework, styling, routing, asset conventions, and local instructions.
+2. Locate the user-supplied video using the invocation rules above. If no video or path was supplied and none can be confidently identified, ask for it before implementing.
+3. Reuse the existing working stack. Do not scaffold a replacement project when one already works.
+4. Inspect the video's dimensions, duration, frame rate, frame count, and file size with `ffprobe` when available.
+5. Preserve unrelated behavior and make the smallest coherent set of changes needed.
 
-Place or reference the video according to the project's existing asset strategy. Avoid duplicate large media files unless copying is necessary for the build system.
+Do not create substitute artwork or replace the supplied footage. Avoid duplicating the source video unless the build requires it.
 
-## Design around the footage
+## Convert the video to a frame sequence
 
-Default to a clean, premium landing page with about four sections when no direction or copy is supplied. Keep the overall experience to roughly four or five sections, with minimal copy, large typography, restrained transitions, and deliberate whitespace. Align each section's message and placement with an important portion of the footage.
+The default rendering path is a numbered WebP frame sequence, not `video.currentTime`. Extract frames into the project's public/static asset area with zero-padded names such as `frames/frame_0001.webp`.
 
-Keep the video visually dominant. Use overlays or subtle localized contrast treatments only when text readability requires them. Avoid card grids, dashboard patterns, excessive navigation or calls to action, random illustrations, ornamental 3D, and gratuitous gradients. Do not add an animation dependency when native browser APIs are sufficient.
+- Preserve the source cadence up to 30 fps. For a long clip, sample it to roughly 240–300 total frames so the payload remains practical.
+- Preserve the source aspect ratio. Use a sensible WebP quality around 78–82 and inspect the result rather than assuming the setting is adequate.
+- Record the actual extracted frame count in the implementation; do not leave a guessed constant.
+- Prefer `ffmpeg` for extraction. A representative command is `ffmpeg -i input.mp4 -vf fps=30 -c:v libwebp -quality 80 frames/frame_%04d.webp`; adapt the input, fps, output path, and existing project tooling.
+- Do not delete or overwrite unrelated assets. If the destination already contains a sequence, verify that it belongs to this animation before replacing it.
 
-Use responsive composition deliberately. Ensure text remains legible against cropped footage, account for mobile viewport behavior and safe areas, and reduce heavy visual effects on constrained devices.
+Use direct paused-video seeking only when frame extraction is unavailable or the resulting frame payload is clearly unsuitable. If falling back, explain the tradeoff and retain the same fixed-stage, bidirectional, smoothed scroll behavior.
 
-## Implement scroll-driven scrubbing
+## Match the reference experience
 
-The video must:
+When the user gives no additional layout or copy direction, produce a canvas-only page:
 
-- fill the viewport and remain visually fixed or sticky while the document scrolls;
-- be `muted` and `playsInline`, use `object-fit: cover`, and preload enough data for scrubbing;
-- remain paused—never call `video.play()`;
-- be controlled by assigning `video.currentTime` manually;
-- map clamped total page or experience progress from `0..1` onto `0..video.duration`, so reverse scrolling reverses the video.
+- a white page and fixed, overflow-hidden stage covering `100vw` by `100vh`;
+- enough invisible document height for a deliberate scrub, approximately `400vh` for an 8-second or roughly 240-frame source;
+- no navbar, cards, headings, calls to action, gradients, or invented marketing copy;
+- a canvas that fills the stage and draws each frame with `cover` geometry, centered on both axes;
+- a short opacity reveal only after the first frame is ready, preventing a blank-frame flash;
+- restrained image treatment only when it suits the footage, such as a white backdrop, a slight contrast adjustment, or `mix-blend-mode: multiply` for a white-background product render.
 
-Wait for `loadedmetadata` before using duration or seeking. Derive progress from the actual scroll range, such as `scrollY / (documentElement.scrollHeight - innerHeight)`, guarding against a zero range and non-finite duration.
+If the user asks for content, keep it sparse and place it over or between intentional moments in the animation without reducing the canvas's visual dominance. Do not introduce an animation dependency when native canvas and browser APIs are sufficient.
 
-Do not assign `currentTime` directly in every scroll event. Scroll and resize handlers should only update inexpensive measurements or a target. Run one `requestAnimationFrame` loop that advances an internal playhead with frame-rate-independent exponential smoothing:
+## Implement canvas scrubbing
+
+Use a fixed or sticky stage containing an `aria-hidden` canvas. Size its backing buffer for device pixel ratio, capped around 2, while keeping drawing measurements in CSS pixels. Reset the canvas transform before applying a new DPR scale on resize so scaling does not accumulate.
+
+Map clamped total-page progress to the complete sequence:
 
 ```js
-const alpha = 1 - Math.exp(-dt * 8)
-current += (target - current) * alpha
-video.currentTime = current
+const range = document.documentElement.scrollHeight - innerHeight
+const progress = range > 0 ? Math.min(1, Math.max(0, scrollY / range)) : 0
+targetFrame = progress * (frameCount - 1)
 ```
 
-Compute `dt` in seconds and clamp unusually large frame gaps so tab switches do not cause jarring jumps. Clamp the target and playhead to the seekable timeline. Stop writing once sufficiently close to the target when useful, but resume the loop promptly after scrolling. Prefer refs or mutable local values over framework state so scrolling does not cause component rerenders.
+Scrolling forward must advance the animation and reverse scrolling must reverse it. Scroll and resize handlers should only update cheap measurements or the target. Run a single `requestAnimationFrame` loop and smooth a floating-point playhead with frame-rate-independent exponential interpolation:
 
-Use passive scroll listeners where appropriate. Recalculate scroll range on resize and when layout height can change. Clean up all listeners, media-query listeners, observers, and animation frames when the owning component unmounts.
+```js
+const dt = Math.min((now - lastTime) / 1000, 0.1)
+const alpha = 1 - Math.exp(-dt * 9)
+currentFrame += (targetFrame - currentFrame) * alpha
+```
 
-Do not let normal playback, repeated initialization, or competing effects write to the playhead. Avoid flashing before metadata loads; render a suitable poster/background or keep the video surface intentionally styled until the first frame is available.
+Draw the integer frame on each side of the playhead and crossfade the next frame by the fractional remainder. Clear or paint the canvas background first, reset `globalAlpha` after drawing, and redraw on resize.
 
-## Accessibility and fallbacks
+## Load frames progressively
 
-For `prefers-reduced-motion: reduce`, disable scroll scrubbing and hold a suitable static frame, normally the first frame. Keep the page content usable without motion. Do not introduce scroll hijacking.
+Do not block first paint on the entire sequence:
 
-If the source codec, keyframe spacing, bitrate, or file size makes seeking visibly poor, explain that the video needs web optimization rather than masking the limitation with more animation code. Recommend a browser-compatible encoding with frequent enough keyframes and an appropriate bitrate, while preserving the user's original source.
+1. Load frame 1 first, draw it, and reveal the canvas.
+2. Queue evenly distributed frames across the timeline, for example every eighth frame, so seeking has a nearby fallback early.
+3. Queue every remaining frame.
+
+Track requested frames separately from loaded frames so the priority and remainder passes never request the same image twice. While a requested frame is still loading, draw the nearest loaded frame. Handle failed image loads without stalling the rest of the sequence.
+
+Use an asset URL strategy that works with the project's base path and deployment target. Clean up scroll, resize, media-query listeners, observers, and animation frames when the owning component unmounts.
+
+## Responsive behavior and accessibility
+
+Keep `cover` rendering on narrow screens and accept deliberate cropping; do not distort the imagery. Check important subject placement at desktop and mobile sizes. Account for mobile viewport changes and safe areas if visible content is added.
+
+For `prefers-reduced-motion: reduce`, stop scrubbing and hold the first suitable frame. Keep any page content accessible and do not hijack scrolling. The decorative canvas should not create redundant screen-reader content.
 
 ## Verify the result
 
-Run the project's relevant checks and inspect the experience in a browser when available. Confirm:
+Run the project's checks and inspect the result in a browser when available. Confirm:
 
-- the first and last scroll positions correspond to the beginning and end of the video;
-- forward and reverse scrolling are smooth, without abrupt seeks, restarts, flashing, or playback fighting the scrubber;
-- metadata loading, resize, route/component cleanup, and reduced-motion behavior work;
-- desktop and mobile layouts preserve video prominence and readable, sparse content;
-- unrelated project functionality still works.
+- the first and last scroll positions reach the first and last extracted frames;
+- forward and reverse scrolling feel continuous, with no abrupt jumps, playback, flashing, or visible blank canvas;
+- frame requests are not duplicated and missing or slow frames use a nearby loaded fallback;
+- cover cropping, DPR resizing, and canvas scaling work at desktop and mobile sizes;
+- reduced motion holds a static frame and component cleanup is complete;
+- the generated sequence has the expected count, dimensions, ordering, and acceptable total size;
+- unrelated project behavior still works.
 
-Finish by summarizing the implemented experience, checks run, and any source-video encoding limitation that remains.
+Finish by summarizing the experience, the extracted frame count and payload, checks run, and any remaining source-media limitation.
