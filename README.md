@@ -4,6 +4,10 @@ Turn a video into a smooth, scroll-controlled canvas website.
 
 Scroll Video Website is a portable Agent Skill that converts a supplied video into an optimized WebP frame sequence and builds a responsive, full-viewport animation controlled by scrolling. It preserves the existing project stack while handling frame extraction, progressive loading, bidirectional scrubbing, interpolation, reduced-motion behavior, and cleanup.
 
+## Demo
+
+![Scroll Video Website demo](assets/demo.gif)
+
 ## Install
 
 ```bash
