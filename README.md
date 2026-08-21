@@ -1,5 +1,7 @@
 # Scroll Video Website
 
+## Turn any video into a smooth, scroll-controlled website with one Agent Skill.
+
 [![Scroll Video Website demo](assets/demo.gif)](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
 
 ## Install
@@ -8,11 +10,7 @@
 npx skills add musoyangrigor/scroll-video-website-skill --skill scroll-video-website
 ```
 
-[![skills.sh](https://skills.sh/b/musoyangrigor/scroll-video-website-skill)](https://skills.sh/musoyangrigor/scroll-video-website-skill)
-
-Turn any video into a smooth, scroll-controlled website with one Agent Skill.
-
-[Live Demo](#live-demo) · [Install](#install) · [Usage](#usage) · [Features](#features) · [Star](#star)
+[Live Demo](#live-demo) · [Install](#install) · [Usage](#usage) · [Features](#features)
 
 ## Live Demo
 
@@ -39,9 +37,5 @@ $scroll-video-website ./media/product-film.mp4 use a dark editorial style
 - Renders a responsive, full-viewport canvas with adjacent-frame blending.
 - Preserves the existing project stack and supports reduced-motion preferences.
 - Builds a minimal canvas-only experience by default, or follows added design direction.
-
-## Star
-
-If this saved you time, consider [starring the repo](https://github.com/musoyangrigor/scroll-video-website-skill).
 
 MIT licensed. See [LICENSE](LICENSE).
