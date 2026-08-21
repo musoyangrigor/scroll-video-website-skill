@@ -1,42 +1,48 @@
 # Scroll Video Website
 
-Build minimal, cinematic websites where scrolling smoothly scrubs a full-viewport canvas animation extracted from a supplied video.
+Turn a video into a smooth, scroll-controlled canvas website.
 
-This portable Agent Skill guides coding agents to inspect an existing website, preserve its stack and unrelated behavior, convert the user's video into an optimized WebP frame sequence, and render it on a fixed canvas with bidirectional, smoothed scroll control. With no additional design direction, it produces a clean canvas-only experience with the same shape as the TRIO animation reference: white stage, approximately `400vh` of scroll space, cover-cropped imagery, progressive frame loading, and no invented interface or marketing copy.
+Scroll Video Website is a portable Agent Skill that converts a supplied video into an optimized WebP frame sequence and builds a responsive, full-viewport animation controlled by scrolling. It preserves the existing project stack while handling frame extraction, progressive loading, bidirectional scrubbing, interpolation, reduced-motion behavior, and cleanup.
 
 ## Install
 
 ```bash
-npx skills add musoyangrigor/scroll-video-website --skill scroll-video-website
+npx skills add musoyangrigor/scroll-video-website-skill --skill scroll-video-website
 ```
 
-Install globally for Codex without prompts:
+The Skills CLI configures the skill for the selected supported AI agent, including Codex. Start a new agent session after installation.
 
-```bash
-npx skills add musoyangrigor/scroll-video-website --skill scroll-video-website -g -a codex -y
-```
+## Usage
 
-Start a new agent session after installation, then invoke it with:
+Place the video path immediately after the skill name:
 
 ```text
 $scroll-video-website ./media/product-film.mp4
 ```
 
-The path immediately follows the skill name and is resolved relative to the current project. Additional prompt text can supply visual direction:
+Add optional design direction after the path:
 
 ```text
-$scroll-video-website ./media/product-film.mp4 use a dark editorial style with minimal copy
+$scroll-video-website ./media/product-film.mp4 use a dark editorial style with condensed typography
 ```
 
-A unique bare filename match may live in a subdirectory, and an absolute path also works. Quote paths containing spaces. If no video is supplied, the file is missing, or the filename is ambiguous, the skill asks for a precise path.
+| Invocation | Result |
+| --- | --- |
+| `$scroll-video-website <video-path>` | Build the default minimal scroll-animation website. |
+| `$scroll-video-website <video-path> <instructions>` | Build the same animation architecture while following the added style, layout, or copy direction. |
 
-## What it enforces
+Paths are resolved relative to the current project unless they are absolute. Quote paths containing spaces. If a bare filename has exactly one match in the project, the skill can locate it automatically.
 
-- A fixed, full-viewport canvas backed by a numbered WebP frame sequence.
-- Video-to-frame extraction at a practical cadence, size, and quality.
-- Progressive loading of the first frame, distributed timeline frames, then the remainder.
-- Bidirectional page-progress mapping, adjacent-frame blending, and frame-rate-independent smoothing.
-- A minimal canvas-only default instead of invented navigation, cards, or copy.
-- Existing-framework reuse, cover-cropped responsive rendering, reduced-motion fallback, and complete cleanup.
+## What it builds
 
-The skill follows the portable `SKILL.md` Agent Skills format.
+- A fixed, full-viewport canvas backed by numbered WebP frames.
+- Smooth forward and reverse scrubbing tied to total page progress.
+- Progressive frame loading with nearby-frame fallbacks.
+- Adjacent-frame blending and frame-rate-independent smoothing.
+- Responsive cover rendering with device-pixel-ratio support.
+- A static accessible fallback for reduced-motion preferences.
+- A minimal canvas-only page by default, without invented navigation or marketing copy.
+
+## About
+
+Scroll Video Website follows the portable `SKILL.md` Agent Skills format and works with Codex and other compatible AI coding agents.
