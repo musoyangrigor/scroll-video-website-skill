@@ -1,12 +1,6 @@
 # Scroll Video Website
 
-Turn a video into a smooth, scroll-controlled canvas website.
-
-Scroll Video Website is a portable Agent Skill that converts a supplied video into an optimized WebP frame sequence and builds a responsive, full-viewport animation controlled by scrolling. It preserves the existing project stack while handling frame extraction, progressive loading, bidirectional scrubbing, interpolation, reduced-motion behavior, and cleanup.
-
-## Demo
-
-![Scroll Video Website demo](assets/demo.gif)
+[![Scroll Video Website demo](assets/demo.gif)](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
 
 ## Install
 
@@ -14,39 +8,40 @@ Scroll Video Website is a portable Agent Skill that converts a supplied video in
 npx skills add musoyangrigor/scroll-video-website-skill --skill scroll-video-website
 ```
 
-The Skills CLI configures the skill for the selected supported AI agent, including Codex. Start a new agent session after installation.
+[![skills.sh](https://skills.sh/b/musoyangrigor/scroll-video-website-skill)](https://skills.sh/musoyangrigor/scroll-video-website-skill)
+
+Turn any video into a smooth, scroll-controlled website with one Agent Skill.
+
+[Live Demo](#live-demo) · [Install](#install) · [Usage](#usage) · [Features](#features) · [Star](#star)
+
+## Live Demo
+
+[View the full demo GIF](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
 
 ## Usage
 
-Place the video path immediately after the skill name:
+Give your agent the skill name followed by a video path:
 
 ```text
 $scroll-video-website ./media/product-film.mp4
 ```
 
-Add optional design direction after the path:
+Optionally add visual direction after the path:
 
 ```text
-$scroll-video-website ./media/product-film.mp4 use a dark editorial style with condensed typography
+$scroll-video-website ./media/product-film.mp4 use a dark editorial style
 ```
 
-| Invocation | Result |
-| --- | --- |
-| `$scroll-video-website <video-path>` | Build the default minimal scroll-animation website. |
-| `$scroll-video-website <video-path> <instructions>` | Build the same animation architecture while following the added style, layout, or copy direction. |
+## Features
 
-Paths are resolved relative to the current project unless they are absolute. Quote paths containing spaces. If a bare filename has exactly one match in the project, the skill can locate it automatically.
+- Converts video into an optimized WebP frame sequence.
+- Scrubs smoothly in both directions with progressive frame loading.
+- Renders a responsive, full-viewport canvas with adjacent-frame blending.
+- Preserves the existing project stack and supports reduced-motion preferences.
+- Builds a minimal canvas-only experience by default, or follows added design direction.
 
-## What it builds
+## Star
 
-- A fixed, full-viewport canvas backed by numbered WebP frames.
-- Smooth forward and reverse scrubbing tied to total page progress.
-- Progressive frame loading with nearby-frame fallbacks.
-- Adjacent-frame blending and frame-rate-independent smoothing.
-- Responsive cover rendering with device-pixel-ratio support.
-- A static accessible fallback for reduced-motion preferences.
-- A minimal canvas-only page by default, without invented navigation or marketing copy.
+If this saved you time, consider [starring the repo](https://github.com/musoyangrigor/scroll-video-website-skill).
 
-## About
-
-Scroll Video Website follows the portable `SKILL.md` Agent Skills format and works with Codex and other compatible AI coding agents.
+MIT licensed. See [LICENSE](LICENSE).
