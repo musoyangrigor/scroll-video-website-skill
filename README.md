@@ -16,6 +16,18 @@ npx skills add musoyangrigor/scroll-video-website-skill --skill scroll-video-web
 
 [View the full demo GIF](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
 
+## Example Website
+
+The demo shows a simple product website made from a single video. The video fills the screen, and scrolling forward or backward smoothly moves through its frames.
+
+You can create the same kind of website with:
+
+```text
+$scroll-video-website ./media/product-demo.mp4
+```
+
+The skill converts the video into optimized frames and builds the responsive scroll-controlled page for you.
+
 ## Usage
 
 Give your agent the skill name followed by a video path:
