@@ -1,6 +1,6 @@
 ---
 name: scroll-video-website
-description: Build or redesign a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals and storytelling pages where scrolling should scrub an animation; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
+description: Build or optimize a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals, storytelling pages, and optimizing their generated frame assets; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
 ---
 
 # Scroll Video Website
@@ -8,6 +8,8 @@ description: Build or redesign a website around a user-provided video as a smoot
 Create a minimal full-page experience like a product animation viewer: the page itself supplies scroll distance while a fixed canvas fills the viewport and scrubs a frame sequence derived from the user's video. The animation is the interface, not a background behind a conventional landing page.
 
 ## Invocation
+
+This skill has two modes: build a scroll-video website from a video, or optimize an existing frame sequence. If the first argument is `optimize`, follow [references/optimize.md](references/optimize.md) and do not run the build workflow below.
 
 Treat this concise form as a complete build request:
 
@@ -25,6 +27,14 @@ $scroll-video-website ./media/product-reveal.mp4 use a black background and cond
 The first example means: derive the frame sequence and build the full default scroll-animation website described below. In the second, preserve the same video-driven animation architecture while following the added visual direction. Let the agent using this skill interpret and implement the rest of the prompt; this skill does not define a separate command grammar for style options.
 
 Interpret the video path as relative to the current working directory unless it is absolute. If it contains spaces, the user should quote it. Check the exact path first. If a bare filename is not there, search the current project for an exact filename match while excluding dependency, build, cache, and VCS directories. Continue automatically when exactly one match exists. If there are no matches or multiple matches, ask the user for the precise path. Braces in `<path/to/video.mp4>` or `{video_path}` indicate a placeholder and are not part of the actual path. Do not require or interpret a `use` keyword.
+
+Optimize an existing sequence with exactly:
+
+```text
+$scroll-video-website optimize
+```
+
+The optimize command takes no path or other arguments. Inspect the current project for generated frame sequences. Continue when exactly one sequence is identifiable. If several are identifiable, show them and ask which one to optimize. If no sequence can be found or confidently recognized, tell the user that the frames folder was not found and stop.
 
 ## Establish the project and source video
 

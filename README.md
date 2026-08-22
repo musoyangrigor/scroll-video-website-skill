@@ -30,6 +30,14 @@ Optionally add visual direction after the path:
 $scroll-video-website ./media/product-film.mp4 use a dark editorial style
 ```
 
+Optimize an existing generated frame sequence interactively:
+
+```text
+$scroll-video-website optimize
+```
+
+The command takes no arguments. The agent discovers generated sequences in the current project, measures the real assets, trial-encodes representative frames, and shows separate estimates for format, frame count, quality, and other supported settings. It then shows their combined estimated impact and asks for confirmation before rewriting anything.
+
 ## Features
 
 - Converts video into an optimized WebP frame sequence.
@@ -37,5 +45,6 @@ $scroll-video-website ./media/product-film.mp4 use a dark editorial style
 - Renders a responsive, full-viewport canvas with adjacent-frame blending.
 - Preserves the existing project stack and supports reduced-motion preferences.
 - Builds a minimal canvas-only experience by default, or follows added design direction.
+- Interactively optimizes existing sequences with file-specific size estimates before processing.
 
 MIT licensed. See [LICENSE](LICENSE).
