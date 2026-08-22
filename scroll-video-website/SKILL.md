@@ -1,9 +1,23 @@
 ---
 name: scroll-video-website
-description: Build or optimize a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals, storytelling pages, and optimizing their generated frame assets; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
+description: Turn a user-provided video into an Apple-style, scroll-driven website with smooth canvas video scrubbing, optimized WebP frame sequences, progressive loading, and responsive motion. Use for cinematic product reveals, landing pages, scrollytelling, image-sequence animation, and scroll-controlled video; also optimize generated frame assets.
 ---
 
 # Scroll Video Website
+
+## When to use
+
+Use this skill when the user wants to:
+
+- build an Apple-style scroll animation from a video;
+- create a scroll-controlled or scroll-scrubbed video website;
+- turn a product video into a cinematic landing page;
+- build a scrollytelling experience driven by video;
+- convert video into an optimized image sequence for scroll animation;
+- create a Canvas-based product reveal controlled by scrolling;
+- optimize an existing generated scroll-video frame sequence.
+
+Do not use it for ordinary autoplay video backgrounds or unrelated scroll effects.
 
 Create a minimal full-page experience like a product animation viewer: the page itself supplies scroll distance while a fixed canvas fills the viewport and scrubs a frame sequence derived from the user's video. The animation is the interface, not a background behind a conventional landing page.
 
