@@ -2,13 +2,9 @@
 
 > Build or redesign a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals and storytelling pages where scrolling should scrub an animation; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
 
-Turn a video into a smooth, scroll-controlled canvas website.
+## Turn any video into a smooth, scroll-controlled website with one Agent Skill.
 
-Scroll Video Website is a portable Agent Skill that converts a supplied video into an optimized WebP frame sequence and builds a responsive, full-viewport animation controlled by scrolling. It preserves the existing project stack while handling frame extraction, progressive loading, bidirectional scrubbing, interpolation, reduced-motion behavior, and cleanup.
-
-## Demo
-
-![Scroll Video Website demo](assets/demo.gif)
+[![Scroll Video Website demo](assets/demo.gif)](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
 
 ## Install
 
@@ -16,38 +12,54 @@ Scroll Video Website is a portable Agent Skill that converts a supplied video in
 npx skills add musoyangrigor/scroll-video-website-skill --skill scroll-video-website
 ```
 
-The Skills CLI configures the skill for the selected supported AI agent, including Codex. Start a new agent session after installation.
+[Live Demo](#live-demo) · [Install](#install) · [Usage](#usage) · [Features](#features)
+
+## Live Demo
+
+[View the full demo GIF](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
+
+## Example Website
+
+The demo shows a simple product website made from a single video. The video fills the screen, and scrolling forward or backward smoothly moves through its frames.
+
+You can create the same kind of website with:
+
+```text
+$scroll-video-website ./media/product-demo.mp4
+```
+
+The skill converts the video into optimized frames and builds the responsive scroll-controlled page for you.
 
 ## Usage
 
-Place the video path immediately after the skill name:
+Give your agent the skill name followed by a video path:
 
 ```text
 $scroll-video-website ./media/product-film.mp4
 ```
 
-Add optional design direction after the path:
+Optionally add visual direction after the path:
 
 ```text
-$scroll-video-website ./media/product-film.mp4 use a dark editorial style with condensed typography
+$scroll-video-website ./media/product-film.mp4 use a dark editorial style
 ```
 
-| Invocation | Result |
-| --- | --- |
-| `$scroll-video-website <video-path>` | Build the default minimal scroll-animation website. |
-| `$scroll-video-website <video-path> <instructions>` | Build the same animation architecture while following the added style, layout, or copy direction. |
+Optimize an existing generated frame sequence interactively:
 
-Paths are resolved relative to the current project unless they are absolute. Quote paths containing spaces. If a bare filename has exactly one match in the project, the skill can locate it automatically.
+```text
+$scroll-video-website optimize
+```
 
-## What it builds
+The command takes no arguments. The agent discovers generated sequences in the current project, measures the real assets, trial-encodes representative frames, and shows separate estimates for format, frame count, quality, and other supported settings. It then shows their combined estimated impact and asks for confirmation before rewriting anything.
 
-- A fixed, full-viewport canvas backed by numbered WebP frames.
-- Smooth forward and reverse scrubbing tied to total page progress.
-- Progressive frame loading with nearby-frame fallbacks.
-- Adjacent-frame blending and frame-rate-independent smoothing.
-- Responsive cover rendering with device-pixel-ratio support.
-- A static accessible fallback for reduced-motion preferences.
-- A minimal canvas-only page by default, without invented navigation or marketing copy.
+## Features
+
+- Converts video into an optimized WebP frame sequence.
+- Scrubs smoothly in both directions with progressive frame loading.
+- Renders a responsive, full-viewport canvas with adjacent-frame blending.
+- Preserves the existing project stack and supports reduced-motion preferences.
+- Builds a minimal canvas-only experience by default, or follows added design direction.
+- Interactively optimizes existing sequences with file-specific size estimates before processing.
 
 ## About
 
