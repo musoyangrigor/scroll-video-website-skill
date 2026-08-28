@@ -1,5 +1,7 @@
 # Scroll Video Website
 
+> Build or redesign a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals and storytelling pages where scrolling should scrub an animation; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
+
 ## Turn any video into a smooth, scroll-controlled website with one Agent Skill.
 
 [![Scroll Video Website demo](assets/demo.gif)](https://github.com/musoyangrigor/scroll-video-website-skill/blob/main/assets/demo.gif)
@@ -59,4 +61,6 @@ The command takes no arguments. The agent discovers generated sequences in the c
 - Builds a minimal canvas-only experience by default, or follows added design direction.
 - Interactively optimizes existing sequences with file-specific size estimates before processing.
 
-MIT licensed. See [LICENSE](LICENSE).
+## About
+
+Scroll Video Website follows the portable `SKILL.md` Agent Skills format.
