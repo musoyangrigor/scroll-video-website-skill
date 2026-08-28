@@ -1,5 +1,7 @@
 # Scroll Video Website
 
+> Build or redesign a website around a user-provided video as a smooth, scroll-controlled full-viewport canvas frame sequence. Use for cinematic product reveals and storytelling pages where scrolling should scrub an animation; do not use for ordinary autoplay video backgrounds or unrelated scroll effects.
+
 Turn a video into a smooth, scroll-controlled canvas website.
 
 Scroll Video Website is a portable Agent Skill that converts a supplied video into an optimized WebP frame sequence and builds a responsive, full-viewport animation controlled by scrolling. It preserves the existing project stack while handling frame extraction, progressive loading, bidirectional scrubbing, interpolation, reduced-motion behavior, and cleanup.
@@ -49,4 +51,4 @@ Paths are resolved relative to the current project unless they are absolute. Quo
 
 ## About
 
-Scroll Video Website follows the portable `SKILL.md` Agent Skills format and works with Codex and other compatible AI coding agents.
+Scroll Video Website follows the portable `SKILL.md` Agent Skills format.
